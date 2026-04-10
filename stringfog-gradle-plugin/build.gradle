@@ -1,12 +1,10 @@
-plugins {
-    id "java-library"
-    id "org.jetbrains.kotlin.jvm" version "1.8.21"
-}
+apply plugin: 'java-library'
+apply plugin: 'org.jetbrains.kotlin.jvm'
 
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:8.0.0'
+    implementation 'com.android.tools.build:gradle:9.1.0'
     implementation project(':stringfog-core')
     implementation project(':stringfog-interface')
 }
@@ -29,12 +27,14 @@ tasks.withType(Jar){
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = targetCompatibility
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
